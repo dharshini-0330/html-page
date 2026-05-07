@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Semantic Blog Page</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Source+Serif+4:wght@300;400;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:    #1a1410;
+      --paper:  #f7f3ec;
+      --cream:  #ede8df;
+      --rust:   #b84c2b;
+      --gold:   #c9922a;
+      --muted:  #7a6f63;
+      --border: #d4cdc3;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-weight: 300;
+      line-height: 1.75;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 2.5rem 6vw 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      border-bottom: 4px solid var(--rust);
+    }
+
+    header hgroup span {
+      font-family: 'Source Serif 4', serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    header hgroup h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-top: 0.2rem;
+    }
+
+    header p {
+      font-size: 0.85rem;
+      color: #aaa;
+      font-style: italic;
+      max-width: 260px;
+      text-align: right;
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--cream);
+      border-bottom: 1px solid var(--border);
+      padding: 0 6vw;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      overflow-x: auto;
+    }
+
+    nav a {
+      display: inline-block;
+      padding: 0.9rem 1.2rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-family: 'Source Serif 4', serif;
+      font-weight: 600;
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 3px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+      white-space: nowrap;
+    }
+
+    nav a:hover,
+    nav a[aria-current="page"] {
+      color: var(--rust);
+      border-bottom-color: var(--rust);
+    }
+
+    /* ── MAIN GRID ── */
+    main {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 0;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3rem 6vw;
+      align-items: start;
+    }
+
+    /* ── FEATURED SECTION ── */
+    section.featured {
+      grid-column: 1 / 2;
+      margin-bottom: 3rem;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    section.featured h2 {
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--rust);
+      font-family: 'Source Serif 4', serif;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ── ARTICLES ── */
+    article {
+      padding-bottom: 2.5rem;
+      margin-bottom: 2.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    article:last-of-type { border-bottom: none; }
+
+    article header {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+      display: block;
+      border: none;
+      margin-bottom: 1rem;
+    }
+
+    article header p.meta {
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+
+    article header p.meta time { color: var(--gold); font-weight: 600; }
+
+    article header h2,
+    article header h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      line-height: 1.2;
+      color: var(--ink);
+    }
+
+    article.featured-post header h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); }
+
+    article p { margin-bottom: 1rem; color: #3a342e; }
+
+    article footer {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+      border: none;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 1.2rem;
+    }
+
+    article footer a.read-more {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--rust);
+      text-decoration: none;
+      border-bottom: 1px solid var(--rust);
+      padding-bottom: 1px;
+      transition: opacity 0.2s;
+    }
+
+    article footer a.read-more:hover { opacity: 0.65; }
+
+    article footer p.author {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    /* ── TAGS ── */
+    section.tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 1rem 0;
+    }
+
+    section.tags mark {
+      background: var(--cream);
+      color: var(--muted);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.65rem;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      font-family: 'Source Serif 4', serif;
+      font-weight: 600;
+    }
+
+    /* ── ASIDE ── */
+    aside {
+      grid-column: 2 / 3;
+      grid-row: 1 / 10;
+      padding-left: 2.5rem;
+      border-left: 1px solid var(--border);
+      margin-left: 2rem;
+    }
+
+    aside section { margin-bottom: 2.5rem; }
+
+    aside section h3 {
+      font-size: 0.68rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--rust);
+      font-weight: 600;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    aside section ul { list-style: none; }
+
+    aside section ul li {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--cream);
+      font-size: 0.88rem;
+    }
+
+    aside section ul li a {
+      color: var(--ink);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    aside section ul li a:hover { color: var(--rust); }
+
+    aside section ul li span {
+      float: right;
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    aside blockquote {
+      background: var(--cream);
+      border-left: 3px solid var(--gold);
+      padding: 1rem 1.2rem;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    aside blockquote cite {
+      display: block;
+      margin-top: 0.5rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      font-style: normal;
+      color: var(--gold);
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    /* ── ARTICLES SECTION ── */
+    section.articles {
+      grid-column: 1 / 2;
+    }
+
+    section.articles h2 {
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 600;
+      margin-bottom: 2rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink);
+      color: #aaa;
+      padding: 2.5rem 6vw;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 2rem;
+      border-top: 4px solid var(--rust);
+    }
+
+    footer section h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      color: var(--paper);
+      margin-bottom: 0.8rem;
+    }
+
+    footer section p,
+    footer section address {
+      font-size: 0.82rem;
+      font-style: normal;
+      line-height: 1.6;
+    }
+
+    footer section a {
+      color: #aaa;
+      text-decoration: none;
+      display: block;
+      font-size: 0.82rem;
+      margin-bottom: 0.3rem;
+      transition: color 0.2s;
+    }
+
+    footer section a:hover { color: var(--gold); }
+
+    footer small {
+      grid-column: 1 / -1;
+      font-size: 0.72rem;
+      text-align: center;
+      color: #555;
+      border-top: 1px solid #333;
+      padding-top: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      main { grid-template-columns: 1fr; padding: 2rem 5vw; }
+      aside {
+        grid-column: 1 / 2;
+        grid-row: auto;
+        border-left: none;
+        border-top: 1px solid var(--border);
+        padding-left: 0;
+        padding-top: 2rem;
+        margin-left: 0;
+        margin-top: 2rem;
+      }
+      section.articles, section.featured { grid-column: 1 / 2; }
+      header p { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <hgroup>
+      <span>Est. 2024 &mdash; The Weekly Lens</span>
+      <h1>The Weekly Lens</h1>
+    </hgroup>
+    <p>Thoughtful writing on design, code &amp; the world we build.</p>
+  </header>
+
+  <!-- NAV -->
+  <nav aria-label="Main navigation">
+    <a href="#" aria-current="page">Home</a>
+    <a href="#">Design</a>
+    <a href="#">Technology</a>
+    <a href="#">Culture</a>
+    <a href="#">Opinion</a>
+    <a href="#">About</a>
+    <a href="#">Subscribe</a>
+  </nav>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- FEATURED -->
+    <section class="featured" aria-label="Featured post">
+      <h2>&#9733; Featured</h2>
+      <article class="featured-post">
+        <header>
+          <p class="meta">Design &bull; <time datetime="2026-05-01">May 1, 2026</time></p>
+          <h2>Why Semantic HTML Is the Real Foundation of Good Design</h2>
+        </header>
+        <p>
+          Before a single pixel of color, before the first line of CSS, there is structure.
+          Semantic HTML is not merely a best practice — it is the skeleton upon which everything
+          else depends. When you write <code>&lt;article&gt;</code> instead of
+          <code>&lt;div class="article"&gt;</code>, you communicate intent to browsers,
+          search engines, and screen readers alike.
+        </p>
+        <p>
+          The invisible architecture of a webpage determines how accessible, maintainable,
+          and discoverable it truly is. Divs are placeholders for meaning you haven't given yet.
+        </p>
+        <section class="tags" aria-label="Post tags">
+          <mark>HTML5</mark>
+          <mark>Accessibility</mark>
+          <mark>Best Practices</mark>
+        </section>
+        <footer>
+          <a href="#" class="read-more">Continue Reading &rarr;</a>
+          <p class="author">By Arjun Mehta</p>
+        </footer>
+      </article>
+    </section>
+
+    <!-- ARTICLES LIST -->
+    <section class="articles" aria-label="Recent posts">
+      <h2>Recent Posts</h2>
+
+      <article>
+        <header>
+          <p class="meta">Technology &bull; <time datetime="2026-04-28">April 28, 2026</time></p>
+          <h3>The Quiet Return of System Fonts</h3>
+        </header>
+        <p>
+          After years of loading Google Fonts on every page, designers are rediscovering
+          the elegance and performance benefits of native system font stacks.
+        </p>
+        <section class="tags" aria-label="Post tags">
+          <mark>Typography</mark>
+          <mark>Performance</mark>
+        </section>
+        <footer>
+          <a href="#" class="read-more">Read Article &rarr;</a>
+          <p class="author">By Priya Nair</p>
+        </footer>
+      </article>
+
+      <article>
+        <header>
+          <p class="meta">Culture &bull; <time datetime="2026-04-22">April 22, 2026</time></p>
+          <h3>When the Grid Breaks: Lessons from Editorial Layout</h3>
+        </header>
+        <p>
+          The best magazine layouts break rules on purpose. Understanding when to violate
+          the grid — and how — separates competent design from unforgettable design.
+        </p>
+        <section class="tags" aria-label="Post tags">
+          <mark>Layout</mark>
+          <mark>Editorial</mark>
+          <mark>CSS Grid</mark>
+        </section>
+        <footer>
+          <a href="#" class="read-more">Read Article &rarr;</a>
+          <p class="author">By Danushka K.</p>
+        </footer>
+      </article>
+
+      <article>
+        <header>
+          <p class="meta">Opinion &bull; <time datetime="2026-04-15">April 15, 2026</time></p>
+          <h3>Accessibility Is Not an Edge Case</h3>
+        </header>
+        <p>
+          One in four adults lives with some form of disability. When we treat accessibility
+          as a feature to be bolted on later, we are not being pragmatic — we are being exclusionary.
+        </p>
+        <section class="tags" aria-label="Post tags">
+          <mark>A11y</mark>
+          <mark>Inclusion</mark>
+        </section>
+        <footer>
+          <a href="#" class="read-more">Read Article &rarr;</a>
+          <p class="author">By Sana Reddy</p>
+        </footer>
+      </article>
+
+    </section>
+
+    <!-- SIDEBAR -->
+    <aside aria-label="Sidebar">
+
+      <section aria-label="About the blog">
+        <h3>About</h3>
+        <p>The Weekly Lens publishes essays on design, technology, and the human experience.</p>
+      </section>
+
+      <section aria-label="Popular posts">
+        <h3>Popular Posts</h3>
+        <ul>
+          <li><a href="#">The Box Model, Explained <span>5 min</span></a></li>
+          <li><a href="#">Flexbox vs Grid in 2026 <span>8 min</span></a></li>
+          <li><a href="#">Color Theory for Devs <span>6 min</span></a></li>
+          <li><a href="#">CSS Custom Properties <span>4 min</span></a></li>
+          <li><a href="#">Web Vitals Deep Dive <span>10 min</span></a></li>
+        </ul>
+      </section>
+
+      <section aria-label="Quote of the week">
+        <h3>Quote</h3>
+        <blockquote>
+          "Good design is honest. It does not make a product appear more innovative or valuable than it really is."
+          <cite>&mdash; Dieter Rams</cite>
+        </blockquote>
+      </section>
+
+      <section aria-label="Categories">
+        <h3>Categories</h3>
+        <ul>
+          <li><a href="#">Design <span>12</span></a></li>
+          <li><a href="#">Technology <span>9</span></a></li>
+          <li><a href="#">Culture <span>7</span></a></li>
+          <li><a href="#">Opinion <span>5</span></a></li>
+        </ul>
+      </section>
+
+    </aside>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <section aria-label="Publication info">
+      <h4>The Weekly Lens</h4>
+      <p>Independent writing on design &amp; technology. No paywalls. No ads.</p>
+    </section>
+
+    <section aria-label="Quick links">
+      <h4>Explore</h4>
+      <a href="#">Archive</a>
+      <a href="#">Newsletter</a>
+      <a href="#">RSS Feed</a>
+      <a href="#">Write for Us</a>
+    </section>
+
+    <section aria-label="Contact">
+      <h4>Get in Touch</h4>
+      <address>
+        <a href="mailto:hello@weeklylens.com">hello@weeklylens.com</a>
+        Chennai, Tamil Nadu, India
+      </address>
+    </section>
+
+    <small>
+      &copy; 2026 The Weekly Lens &mdash; Built with semantic HTML only. No &lt;div&gt;s were harmed.
+    </small>
+  </footer>
+
+</body>
+</html>
