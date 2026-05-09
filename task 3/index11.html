@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Responsive Navbar</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial, Helvetica, sans-serif;
+    }
+
+    body{
+      background:#f4f4f4;
+    }
+
+    /* NAVBAR */
+    nav{
+      width:100%;
+      background:#1f2937;
+      padding:15px 40px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      position:relative;
+    }
+
+    /* LOGO */
+    .logo{
+      color:white;
+      font-size:28px;
+      font-weight:bold;
+      letter-spacing:1px;
+    }
+
+    /* NAV LINKS */
+    .nav-links{
+      display:flex;
+      list-style:none;
+      gap:30px;
+    }
+
+    .nav-links li a{
+      text-decoration:none;
+      color:white;
+      font-size:18px;
+      transition:0.3s;
+      padding:8px 12px;
+      border-radius:5px;
+    }
+
+    .nav-links li a:hover{
+      background:#374151;
+    }
+
+    /* HAMBURGER ICON */
+    .menu-btn{
+      display:none;
+    }
+
+    .hamburger{
+      display:none;
+      flex-direction:column;
+      cursor:pointer;
+      gap:5px;
+    }
+
+    .hamburger span{
+      width:28px;
+      height:3px;
+      background:white;
+      border-radius:5px;
+      transition:0.3s;
+    }
+
+    /* MOBILE VIEW */
+    @media (max-width:768px){
+
+      .hamburger{
+        display:flex;
+      }
+
+      .nav-links{
+        position:absolute;
+        top:75px;
+        left:0;
+        width:100%;
+        background:#1f2937;
+        flex-direction:column;
+        text-align:center;
+        max-height:0;
+        overflow:hidden;
+        transition:max-height 0.4s ease;
+      }
+
+      .nav-links li{
+        padding:18px 0;
+        border-top:1px solid #374151;
+      }
+
+      /* SHOW MENU WHEN CHECKBOX IS CHECKED */
+      .menu-btn:checked ~ .nav-links{
+        max-height:300px;
+      }
+    }
+
+    /* PAGE CONTENT */
+    .hero{
+      height:90vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      flex-direction:column;
+      text-align:center;
+      padding:20px;
+    }
+
+    .hero h1{
+      font-size:48px;
+      margin-bottom:20px;
+      color:#111827;
+    }
+
+    .hero p{
+      font-size:20px;
+      max-width:700px;
+      color:#4b5563;
+      line-height:1.6;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+
+    <div class="logo">MyWebsite</div>
+
+    <!-- HIDDEN CHECKBOX -->
+    <input type="checkbox" id="menu-toggle" class="menu-btn">
+
+    <!-- HAMBURGER -->
+    <label for="menu-toggle" class="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </label>
+
+    <!-- NAVIGATION LINKS -->
+    <ul class="nav-links">
+      <li><a href="#">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Services</a></li>
+      <li><a href="#">Portfolio</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <h1>Responsive Navigation Bar</h1>
+
+    <p>
+      This navigation bar displays horizontal menu links on desktop screens
+      and automatically changes into a hamburger menu on smaller mobile devices
+      using only HTML and CSS without JavaScript.
+    </p>
+  </section>
+
+</body>
+</html>
